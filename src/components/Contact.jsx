@@ -4,11 +4,25 @@ import { Send } from 'lucide-react';
 
 const Contact = () => {
     const [status, setStatus] = useState('idle'); // idle, sending, success
+    const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setStatus('sending');
-        setTimeout(() => setStatus('success'), 2000);
+
+        // Construct WhatsApp Message
+        const phoneNumber = "919536401175";
+        const text = `*New Inquiry via Portfolio*%0A%0A*Name:* ${formData.name}%0A*Email:* ${formData.email}%0A*Message:* ${formData.message}`;
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${text}`;
+
+        setTimeout(() => {
+            setStatus('success');
+            window.open(whatsappUrl, '_blank');
+        }, 1000);
     };
 
     return (
@@ -44,8 +58,15 @@ const Contact = () => {
                         }}>
                             <Send size={40} color="var(--bg-navy)" />
                         </div>
-                        <h3 style={{ fontSize: '2rem', color: 'var(--neon-blue)' }}>Transmission Received</h3>
-                        <p style={{ color: 'var(--text-secondary)', marginTop: '10px' }}>MR ROHIT will review your data shortly.</p>
+                        <h3 style={{ fontSize: '2rem', color: 'var(--neon-blue)' }}>Redirecting to WhatsApp</h3>
+                        <p style={{ color: 'var(--text-secondary)', marginTop: '10px' }}>Connecting secure comms to MR ROHIT...</p>
+                        <button
+                            className="interactive"
+                            onClick={() => { setStatus('idle'); setFormData({ name: '', email: '', message: '' }); }}
+                            style={{ marginTop: '20px', color: 'var(--text-secondary)', textDecoration: 'underline' }}
+                        >
+                            Send another message
+                        </button>
                     </motion.div>
                 ) : (
                     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
@@ -53,6 +74,9 @@ const Contact = () => {
                             <label style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Identify</label>
                             <input
                                 type="text"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
                                 required
                                 className="interactive"
                                 style={{
@@ -73,6 +97,9 @@ const Contact = () => {
                             <label style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Frequency (Email)</label>
                             <input
                                 type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
                                 required
                                 className="interactive"
                                 style={{
@@ -92,6 +119,9 @@ const Contact = () => {
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                             <label style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Message Code</label>
                             <textarea
+                                name="message"
+                                value={formData.message}
+                                onChange={handleChange}
                                 required
                                 rows="4"
                                 className="interactive"
