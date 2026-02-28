@@ -1,0 +1,71 @@
+.app-container {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Base layouts */
+.section {
+  min-height: 100vh;
+  padding: 100px 5%;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.section-title {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  align-self: flex-start;
+  position: relative;
+}
+
+.magnetic-btn {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-radius: 50px;
+  background: linear-gradient(90deg, var(--neon-blue), var(--royal-purple));
+  color: #fff;
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.magnetic-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.5s ease;
+  transform: skewX(-45deg);
+}
+
+.magnetic-btn:hover::before {
+  left: 100%;
+}
+
+.magnetic-btn:hover {
+  box-shadow: 0 10px 30px rgba(0, 240, 255, 0.3), 0 20px 50px rgba(112, 0, 255, 0.3);
+  transform: scale(1.03) translateY(-2px);
+}
+
+/* Ambient canvas */
+#canvas-ambient {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+}
